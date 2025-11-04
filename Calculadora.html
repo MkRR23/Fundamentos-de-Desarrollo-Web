@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: coral;
+    }
+
+    .calculator {
+        background-color: #f1e9da;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 5px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    #display {
+        width: 100%;
+        height: 50px;
+        margin-bottom: 15px;
+        text-align: right;
+        padding: 10px;
+        font-size: 22px;
+        border: none;
+        border-radius: 8px;
+        outline: none;
+        background-color: white;
+    }
+
+    .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 60px);
+        grid-gap: 10px;
+        justify-content: center;
+    }
+
+    button {
+        height: 60px;
+        border: none;
+        border-radius: 10px;
+        background: #f7f5ef;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background: #e8e3d7;
+    }
+
+    button.op {
+        background: #b29c90;
+        color: white;
+    }
+
+    button.equal {
+        grid-row: span 2;
+        background: #b29c90;
+        color: white;
+    }
+
+    button.zero {
+        grid-column: span 2;
+    }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <input type="text" id="display" disabled>
+
+    <div class="buttons">
+        <button class="op" onclick="clearAll()">C</button>
+        <button class="op" onclick="clearEntry()">CE</button>
+        <button class="op" onclick="insert('/')">/</button>
+        <button class="op" onclick="insert('*')">*</button>
+
+        <button onclick="insert('7')">7</button>
+        <button onclick="insert('8')">8</button>
+        <button onclick="insert('9')">9</button>
+        <button class="op" onclick="insert('-')">-</button>
+
+        <button onclick="insert('4')">4</button>
+        <button onclick="insert('5')">5</button>
+        <button onclick="insert('6')">6</button>
+        <button class="op" onclick="insert('+')">+</button>
+
+        <button onclick="insert('1')">1</button>
+        <button onclick="insert('2')">2</button>
+        <button onclick="insert('3')">3</button>
+        <button class="equal" onclick="calculate()">=</button>
+
+        <button class="zero" onclick="insert('0')">0</button>
+        <button onclick="insert('.')">.</button>
+    </div>
+</div>
+
+<script>
+    function insert(num) {
+        document.getElementById("display").value += num;
+    }
+
+    function clearAll() {
+        document.getElementById("display").value = "";
+    }
+
+    function clearEntry() {
+        let value = document.getElementById("display").value;
+        document.getElementById("display").value = value.slice(0, -1);
+    }
+
+    function calculate() {
+        let exp = document.getElementById("display").value;
+        try {
+            if (exp.includes('/0')) {
+                document.getElementById("display").value = "Error: Division entre 0";
+                return;
+            }
+            
+            let result = eval(exp);
+            
+            if (Number.isFinite(result)) {
+                document.getElementById("display").value = Math.round(result);
+            } else {
+                document.getElementById("display").value = "Error";
+            }
+        } catch {
+            document.getElementById("display").value = "Error";
+        }
+    }
+</script>
+
+</body>
+</html>
